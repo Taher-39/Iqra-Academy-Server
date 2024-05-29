@@ -1,5 +1,3 @@
-Certainly! Below is the markdown file (`readme.md`) with step-by-step installation instructions for your `iqra-academy-server` project:
-
 # iqra-academy-server
 
 ## Description
