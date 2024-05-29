@@ -1,6 +1,5 @@
 Certainly! Below is the markdown file (`readme.md`) with step-by-step installation instructions for your `iqra-academy-server` project:
 
-```markdown
 # iqra-academy-server
 
 ## Description
@@ -9,6 +8,7 @@ This is a starter template for a Node.js application built with TypeScript, Expr
 ## Installation
 
 ### Step 1: Clone the Repository
+
 ```bash
 git clone <repository_url>
 cd iqra-academy-server
