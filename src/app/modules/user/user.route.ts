@@ -12,4 +12,4 @@ router.post(
   craeteUserController,
 );
 
-export const UserRoute = router;
+export const UserRoutes = router;

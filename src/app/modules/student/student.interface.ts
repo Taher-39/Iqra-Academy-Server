@@ -29,7 +29,7 @@ export interface IStudent {
   user: Types.ObjectId;
   name: IName;
   gender: 'male' | 'female';
-  dateOfBirth: string;
+  dateOfBirth: Date;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
@@ -37,5 +37,6 @@ export interface IStudent {
   permanentAddress: string;
   guardian: IGuardian;
   localGuardian: ILocalGuardian;
+  admissionSemester: Types.ObjectId,
   profileImg?: string;
 }

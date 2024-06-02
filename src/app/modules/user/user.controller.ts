@@ -6,7 +6,6 @@ import { catchAsync } from '../../utils/catchAsync';
 
 export const craeteUserController = catchAsync(async (req, res) => {
   const { password, student: studentInfo } = req.body;
-  // const parseUser = userValidationSchema.parse(user);
   const result = await createUserService(password, studentInfo);
   sendResponce(res, {
     statusCode: httpStatus.CREATED,
