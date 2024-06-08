@@ -61,8 +61,39 @@ export const studentValidationSchema = z.object({
       permanentAddress: z.string(),
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
-      admissionSemester: z.string(),
+      semester: z.string(),
       profileImg: z.string(),
+      department: z.string(),
+      isDeleted: z.boolean().default(false),
     }),
   }),
+});
+
+// Define Student schema for update
+export const studentUpdateValidationSchema = z.object({
+  body: z
+    .object({
+      student: z
+        .object({
+          name: nameValidationSchema.partial(),
+          gender: z.enum(['male', 'female', 'other']).optional(),
+          dateOfBirth: z.string().optional(),
+          email: z.string().email().optional(),
+          contactNo: z.string().optional(),
+          emergencyContactNo: z.string().optional(),
+          bloodGroup: z
+            .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+            .optional(),
+          presentAddress: z.string().optional(),
+          permanentAddress: z.string().optional(),
+          guardian: guardianValidationSchema.partial(),
+          localGuardian: localGuardianValidationSchema.partial(),
+          semester: z.string().optional(),
+          profileImg: z.string().optional(),
+          department: z.string().optional(),
+          isDeleted: z.boolean().default(false).optional(),
+        })
+        .partial(),
+    })
+    .partial(),
 });

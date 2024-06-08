@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import { TSemester } from './semester.interface';
 import { Month, SemesterCode, SemesterName } from './semester.constant';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 
 const semesterSchema = new Schema(
   {
@@ -21,7 +23,7 @@ semesterSchema.pre('save', async function (next) {
     year: this.year,
   });
   if (isSemesterExits) {
-    throw new Error('Semester is already exits!');
+    throw new AppError(httpStatus.NOT_FOUND, 'Semester is already exits!');
   }
 
   next();

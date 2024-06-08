@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export interface IName {
   firstName: string;
@@ -37,6 +37,8 @@ export interface IStudent {
   permanentAddress: string;
   guardian: IGuardian;
   localGuardian: ILocalGuardian;
-  admissionSemester: Types.ObjectId,
+  semester: Types.ObjectId;
   profileImg?: string;
+  department: Types.ObjectId;
+  isDeleted: boolean;
 }

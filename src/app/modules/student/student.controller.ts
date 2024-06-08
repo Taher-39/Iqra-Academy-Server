@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { StudentServices } from './student.services';
+import {
+  StudentServices,
+  deleteStudentService,
+  updateStudentService,
+} from './student.services';
 import { sendResponce } from '../../utils/sendResponce';
 import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 
-
-
-const AllStudentGetInfoController = catchAsync(async (req, res) => {
+export const AllStudentGetController = catchAsync(async (req, res) => {
   const result = await StudentServices.GetAllStudentInfoIntoDB();
   if (!result) {
     return res.status(400).json({
@@ -22,7 +24,7 @@ const AllStudentGetInfoController = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const SingleStudentGetInfoController = catchAsync(async (req, res) => {
+export const SingleStudentGetController = catchAsync(async (req, res) => {
   const { studentId } = req.params;
   const result = await StudentServices.GetSingleStudentInfoIntoDB(studentId);
   if (!result) {
@@ -38,7 +40,25 @@ const SingleStudentGetInfoController = catchAsync(async (req, res) => {
   });
 });
 
-export const StudentController = {
-  AllStudentGetInfoController,
-  SingleStudentGetInfoController,
-};
+export const updateStudentController = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const { student } = req.body;
+  const result = await updateStudentService(studentId, student);
+
+  sendResponce(res, {
+    statusCode: httpStatus.OK,
+    message: 'Student is deleted succesfully',
+    data: result,
+  });
+});
+export const deleteStudentController = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const result = await deleteStudentService(studentId);
+
+  sendResponce(res, {
+    statusCode: httpStatus.OK,
+    message: 'Student is update succesfully',
+    data: result,
+  });
+});
+
