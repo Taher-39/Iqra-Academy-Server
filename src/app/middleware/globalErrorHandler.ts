@@ -10,7 +10,7 @@ export const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  return res.status(httpStatus.BAD_REQUEST).json({
+  return res.status(err.statusCode || httpStatus.BAD_REQUEST).json({
     success: false,
     message: err.message || 'Something went wrong!',
     error: err,

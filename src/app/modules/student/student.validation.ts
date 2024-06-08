@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Define Name schema
-const nameSchema = z.object({
+const nameValidationSchema = z.object({
   firstName: z
     .string()
     .min(1, { message: 'First Name is required' })
@@ -13,7 +13,7 @@ const nameSchema = z.object({
 });
 
 // Define Guardian schema
-const guardianSchema = z.object({
+const guardianValidationSchema = z.object({
   fatherName: z.string().min(1, { message: 'Father Name is required' }),
   fatherOccupation: z
     .string()
@@ -30,7 +30,7 @@ const guardianSchema = z.object({
 });
 
 // Define LocalGuardian schema
-const localGuardianSchema = z.object({
+const localGuardianValidationSchema = z.object({
   name: z.string().min(1, { message: 'Local Guardian Name is required' }),
   occupation: z
     .string()
@@ -47,44 +47,53 @@ const localGuardianSchema = z.object({
 
 // Define Student schema
 export const studentValidationSchema = z.object({
-  id: z.string().min(1, { message: 'ID is required' }),
-  user: z.string().min(1, { message: 'User is required' }),
-  password: z.string().max(20, { message: 'password max 20 charecter' }),
-  email: z
-    .string()
-    .email({ message: 'Invalid email address' })
-    .min(1, { message: 'Email is required' }),
-  name: nameSchema,
-  gender: z.enum(['male', 'female']),
-  dateOfBirth: z
-    .string()
-    .min(1, { message: 'Date of Birth is required' })
-    .refine((date) => !isNaN(Date.parse(date)), {
-      message: 'Invalid date format',
+  body: z.object({
+    password: z.string().max(20),
+    student: z.object({
+      name: nameValidationSchema,
+      gender: z.enum(['male', 'female', 'other']),
+      dateOfBirth: z.string().optional(),
+      email: z.string().email(),
+      contactNo: z.string(),
+      emergencyContactNo: z.string(),
+      bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+      presentAddress: z.string(),
+      permanentAddress: z.string(),
+      guardian: guardianValidationSchema,
+      localGuardian: localGuardianValidationSchema,
+      semester: z.string(),
+      profileImg: z.string(),
+      department: z.string(),
+      isDeleted: z.boolean().default(false),
     }),
-  contactNo: z
-    .string()
-    .min(1, { message: 'Contact is required' })
-    .regex(/^\d{5}-\d{6}$/, {
-      message: 'Contact number must be in the format 00000-000000',
-    }),
-  emergencyContactNo: z
-    .string()
-    .min(1, { message: 'Emergency Contact is required' })
-    .regex(/^\d{5}-\d{6}$/, {
-      message: 'Emergency Contact number must be in the format 00000-000000',
-    }),
-  bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], {
-    message: '{VALUE} is not a valid blood group',
   }),
-  presentAddress: z.string().min(1, { message: 'Present Address is required' }),
-  permanentAddress: z
-    .string()
-    .min(1, { message: 'Permanent Address is required' }),
-  guardian: guardianSchema,
-  localGuardian: localGuardianSchema,
-  profileImg: z.string().optional(),
-  isActive: z
-    .enum(['active', 'blocked'], { message: '{VALUE} is not a valid status' })
-    .default('active'),
+});
+
+// Define Student schema for update
+export const studentUpdateValidationSchema = z.object({
+  body: z
+    .object({
+      student: z
+        .object({
+          name: nameValidationSchema.partial(),
+          gender: z.enum(['male', 'female', 'other']).optional(),
+          dateOfBirth: z.string().optional(),
+          email: z.string().email().optional(),
+          contactNo: z.string().optional(),
+          emergencyContactNo: z.string().optional(),
+          bloodGroup: z
+            .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+            .optional(),
+          presentAddress: z.string().optional(),
+          permanentAddress: z.string().optional(),
+          guardian: guardianValidationSchema.partial(),
+          localGuardian: localGuardianValidationSchema.partial(),
+          semester: z.string().optional(),
+          profileImg: z.string().optional(),
+          department: z.string().optional(),
+          isDeleted: z.boolean().default(false).optional(),
+        })
+        .partial(),
+    })
+    .partial(),
 });
